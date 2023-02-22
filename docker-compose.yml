@@ -20,3 +20,20 @@ services:
     restart: always
     volumes:
       - /Users/Shared/data/mysql-test:/var/lib/mysql
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8081:8081
+    environment:
+      MYSQL_HOST: mysql
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - spring-network
+networks:
+  spring-network:
+volumes:
+  mysql-data:
